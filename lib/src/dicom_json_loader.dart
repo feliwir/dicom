@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import '../dicom_web.dart';
-import 'dicom_tag.dart';
 import 'dicom_value.dart';
 
 import 'package:collection/collection.dart';
@@ -20,17 +19,31 @@ class DicomJsonLoader {
         ?.value;
 
     // Transform value according to VR
-    switch (vr) {
-      case VR.PN:
-        var pn = value[0] as Map<String, dynamic>;
-        if (pn.containsKey('Alphabetic') && pn['Alphabetic'] != null) {
-          value = pn['Alphabetic'];
-        }
-      default:
-        break;
+    if (value != null) {
+      switch (vr) {
+        case VR.PN:
+          var pn = value[0] as Map<String, dynamic>;
+          if (pn.containsKey('Alphabetic') && pn['Alphabetic'] != null) {
+            value = pn['Alphabetic'];
+          }
+        default:
+          break;
+      }
     }
 
     return Value(vr, value);
+  }
+
+  static DicomObject loadFromJson(Map<String, dynamic> json) {
+    // Create a new DicomObject
+    DicomObject dicom = DicomObject();
+
+    for (var entry in json.entries) {
+      Tag tag = tagFromHexString(entry.key);
+      dicom[tag] = _readValue(entry.value);
+    }
+
+    return dicom;
   }
 
   static Future<DicomObject> loadFromString(String jsonString) async {

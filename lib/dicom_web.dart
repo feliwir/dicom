@@ -6,3 +6,4 @@ library;
 export 'src/dicom_object.dart';
 export 'src/dicom_file_loader.dart';
 export 'src/dicom_json_loader.dart';
+export 'src/dicom_tag.dart';

@@ -45,12 +45,20 @@ class Value {
   Value(this.vr, this.value);
 
   String asString() {
-    if (vr == VR.PN) {}
-
-    if (vr == VR.CS) {
-      return (value as List<String>).join('\\');
+    if (value is List) {
+      return (value as List).join('\\');
     }
 
     return value.toString();
+  }
+
+  String asPatientName() {
+    return asString().split('^').reversed.join(' ');
+  }
+
+  DateTime? asDateTime() {
+    if (value == null) return null;
+
+    return DateTime.parse(asString());
   }
 }

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import '../dicom_web.dart';
-import 'dicom_tag.dart';
 import 'dicom_value.dart';
 
 const int undefinedLength = 0xFFFFFFFF;

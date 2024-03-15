@@ -1,6 +1,7 @@
 import 'dart:collection';
+import 'package:dicom_web/dicom_web.dart';
+
 import 'dicom_value.dart';
-import 'dicom_tag.dart';
 
 class DicomObject {
   final HashMap<Tag, Value> _elements = HashMap<Tag, Value>();
@@ -13,5 +14,11 @@ class DicomObject {
 
   void removeTag(Tag tag) {
     _elements.remove(tag);
+  }
+
+  DicomObject();
+
+  factory DicomObject.fromJson(Map<String, dynamic> json) {
+    return DicomJsonLoader.loadFromJson(json);
   }
 }
